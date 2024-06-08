@@ -29,6 +29,7 @@ public class StudentServiceImpl implements StudentService {
         return userRepository.save(user);
     }
 
+    @Override
     public Optional<Student> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

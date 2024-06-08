@@ -5,8 +5,11 @@ import com.example.demo.repository.CardRepository;
 import com.example.demo.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -23,5 +26,20 @@ public class CardServiceImpl implements CardService {
     public void saveCard(Card card) {
         cardRepository.save(card);
     }
+
+    @Override
+    public List<Card> getCardsByStudentId(UUID studentId) {
+        return cardRepository.findByStudentId(studentId);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+
+         cardRepository.deleteById(id);
+         long c = id;
+    }
+
+
 }
 

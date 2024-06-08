@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -31,11 +32,11 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/cards", true)
                                 .permitAll()
                 )
-                .logout(logout ->
-                        logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
-                                .permitAll()
+                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
+//                        logout
+//                                .logoutUrl("/logout")
+//                                .logoutSuccessUrl("/login?logout")
+//                                .permitAll()
                 );
         return http.build();
     }
