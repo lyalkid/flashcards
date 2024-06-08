@@ -22,29 +22,38 @@ public class FlashcardController {
     public String viewHomePage(Model model) {
         List<Card> listCards = cardService.getAllCards();
         model.addAttribute("listCards", listCards);
+
         return "cards"; // Имя шаблона HTML без расширения
     }
 
     @GetMapping("/cards/new")
     public String createClubForm(Model model) {
         Card card= new Card();
-        model.addAttribute("club", card);
-        return "clubs-create";
+        model.addAttribute("card", card);
+        return "card-new";
     }
 
+
     // Обработка добавления новой карточки
-    @PostMapping("/add")
-    @ResponseBody
-    public String addFlashcard(@RequestParam String question, @RequestParam String answer) {
-        if (question.isEmpty() || answer.isEmpty()) {
-            return "Input fields cannot be empty!";
-        }
-        Card newCard = new Card();
-        newCard.setTerm(question);
-        newCard.setDefinition(answer);
-        cardService.saveCard(newCard);
-        return "Card added successfully!";
+    @PostMapping("/cards/new")
+    public String createCard(@ModelAttribute("card") Card card, Model model) {
+        cardService.saveCard(card);
+        return "redirect:/cards";
     }
+
+
+
+//    @ResponseBody
+//    public String addFlashcard(@RequestParam String question, @RequestParam String answer) {
+//        if (question.isEmpty() || answer.isEmpty()) {
+//            return "Input fields cannot be empty!";
+//        }
+//        Card newCard = new Card();
+//        newCard.setQuestion(question);
+//        newCard.setAnswer(answer);
+//        cardService.saveCard(newCard);
+//        return "Card added successfully!";
+//    }
 
 //    // Получение всех карточек
 //    @GetMapping("/cards")

@@ -2,19 +2,15 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"
+      xmlns:sec="http://www.thymeleaf.org"
 >
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>Flashcard App</title>
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-    />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-            rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    <style>
        * {
            padding: 0;
@@ -42,9 +38,12 @@
            font-weight: 700;
        }
        .add-flashcard-con {
-           display: flex;
-           justify-content: center;
-           padding: 1.2em 0;
+           /*display: flex;*/
+           /*!*justify-content: center;*!*/
+           /*padding: 1.2em 0;*/
+           position: fixed;
+           bottom: 8rem;
+           right: 8rem;
        }
        button {
            border: none;
@@ -210,19 +209,85 @@
                gap: 1.2em;
            }
        }
+       ul {
+           list-style-type: none;
+           margin: 0;
+           padding: 0;
+           overflow: hidden;
+           background-color: #333;
+       }
 
+       li {
+           float: left;
+           border-right:1px solid #bbb;
+       }
+
+       li:last-child {
+           border-right: none;
+       }
+
+       li a {
+           display: block;
+           color: white;
+           text-align: center;
+           padding: 14px 16px;
+           text-decoration: none;
+       }
+
+       li a:hover:not(.active) {
+           background-color: #111;
+       }
+
+       .active {
+           background-color: #04AA6D;
+       }
    </style>
 </head>
 <body>
-<header>
-    <h1>FlashCards</h1>
-</header>
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/cards">FLashCards</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="https://t.me/Lyalkid" target="_blank">Contact</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                <a href="/my_profile">My profile</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                <a href="/cards/new">Add Card</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- <div class="container">
+    <h2>My Flashcards</h2>
+
+    <div id="book-info"></div>
+    <div class="card-container">
+        <div th:each="card: ${listCards}" class="card">
+                        <div class="card-content">
+                <p class="card-question" th:text="${card.question}">Question</p>
+                <p class="card-answer" th:text="${card.answer}">Answer</p>
+            </div>
+        </div>
+    </div> -->
+
 <div class="container">
     <div class="add-flashcard-con">
         <button id="add-flashcard">Add Flashcard</button>
     </div>
     <div id="card-con">
-        <div class="card-list-container"></div>
+        <div class="card-list-container">
+            <div th:each="card: ${listCards}" class="card"><div class="card-content">
+                <div class="question-div" th:text="${card.question}">Question</div>
+                <div class="answer-div hide" th:text="${card.answer}">Answer</div>
+                <a class="show-hide-btn">Show answer</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -248,8 +313,8 @@
             rows="4"
             placeholder="Type the answer here..."
     ></textarea>
-    <button id="save-btn">Save</button>
+    <button type="submit" id="save-btn">Save</button>
 </div>
-<script src="script.js"></script>
+<script src="/static/js/scripts.js"></script>
 </body>
 </html>

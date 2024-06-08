@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let editId = null;
 
     const loadFlashcards = async () => {
-        const response = await fetch('/cards');
+        const response = await fetch('/flashcards');
         const flashcards = await response.json();
         cardListContainer.innerHTML = '';
         flashcards.forEach(({ id, question, answer }) => {

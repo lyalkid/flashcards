@@ -4,9 +4,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -15,8 +13,8 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 public class Student {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String username;
     private String password;
     private String email;
@@ -32,5 +30,5 @@ public class Student {
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 }
