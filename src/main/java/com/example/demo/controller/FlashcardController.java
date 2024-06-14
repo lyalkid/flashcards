@@ -69,7 +69,12 @@ public class FlashcardController {
     @GetMapping("/cards/delete")
     public String deleteForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Student student = studentRepository.findByUsername(userDetails.getUsername()).get();
-        List<Card> cards = cardService.getCardsByStudentId(student.getId());
+        List<Card> cards = new ArrayList<>();
+        if(student.getRole().equals("ROLE_ADMIN")) {
+            cards = cardService.getAllCards();
+        }else {
+            cards = cardService.getCardsByStudentId(student.getId());
+        }
         List<Long> ids = cards.stream().map(Card::getId).toList();
         model.addAttribute("user", student);
         model.addAttribute("ids", ids);
